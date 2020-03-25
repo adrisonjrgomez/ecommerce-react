@@ -20,5 +20,12 @@
         color: black;
         border: 1px solid black;
     }
+    &.google-button{
+        background-color: #4455aa;
+    }
+    &.google-button:hover{
+        background-color: white;
+        color: black;
+    }
 }
   

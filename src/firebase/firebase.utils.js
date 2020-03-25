@@ -69,7 +69,7 @@ export const createUserProfileDocumentPromiseTernary = ({ uid, displayName, emai
                   createdAt: new Date(),
                   ...additionalData
                 })
-        ).catch(error =>
+        ).then(resp => resp.ref).catch(error =>
           console.log("Error creating user", error.message)
         );
 
