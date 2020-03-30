@@ -7,14 +7,12 @@ import {
   selectCartItemsPrices
 } from "../../redux/cart/cart.selectors";
 
-import CheckoutItem from '../../component/checkout-item/checkout-item.component'
+import CheckoutItem from "../../component/checkout-item/checkout-item.component";
 
 import "./checkout.styles.scss";
 
 const CheckoutPage = ({ carItems, total }) => (
   <div className="checkout-page">
-    {console.log(total)}
-    {console.log(carItems)}
     <div className="checkout-header">
       <div className="header-block">
         <span>PRODUCT</span>
@@ -32,9 +30,13 @@ const CheckoutPage = ({ carItems, total }) => (
         <span>REMOVE</span>
       </div>
     </div>
-    {carItems.map(item => (
-      <CheckoutItem key={item.id} item={item}/>
-    ))}
+    {carItems.length ? (
+      carItems.map(item => <CheckoutItem key={item.id} item={item} />)
+    ) : (
+      <div className="empty-message">
+        Empty Cart. Please select something from shop page
+      </div>
+    )}
 
     <div className="total">
       <span>TOTAL USD$ {total}</span>
