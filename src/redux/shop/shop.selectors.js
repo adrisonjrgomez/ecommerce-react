@@ -18,7 +18,8 @@ export const selectShopData = createSelector(
 export const selectCollections = collectionUrlParam =>
   createSelector(
     [selectShopData],
-    collections => collections[collectionUrlParam]
+    collections =>
+      collections[collectionUrlParam] || { title: null, items: null }
   );
 
 export const selectShopDataArray = createSelector(

@@ -5,9 +5,9 @@
 /.pnp
 .pnp.js
 
-/src/firebase/config.js
 /notes.md
-/src/component/stripe-button/config.js
+#/src/firebase/config.js
+#/src/component/stripe-button/config.js
 
 # testing
 /coverage

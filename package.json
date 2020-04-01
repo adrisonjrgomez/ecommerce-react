@@ -2,10 +2,14 @@
   "name": "ecommerce-react",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "12.15.0"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "eslint-plugin-flowtype": "^3.13.0",
     "firebase": "^7.12.0",
     "node-sass": "^4.13.1",
     "react": "^16.13.0",
@@ -17,7 +21,8 @@
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.10.0",
-    "reselect": "^4.0.0"
+    "reselect": "^4.0.0",
+    "typescript": "^3.8.3"
   },
   "scripts": {
     "start": "react-scripts start",
