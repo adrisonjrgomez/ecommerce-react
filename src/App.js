@@ -3,8 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
-import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
-import { setCurrentUser } from "./redux/user/user.action";
+import { checkUser } from "./redux/user/user.action";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 
 import Header from "./component/header/header.component";
@@ -16,33 +15,14 @@ import SignInAndSingUpPage from "./pages/sign-in/sign-page.component";
 import "./App.css";
 import { selectCartItems } from "./redux/cart/cart.selectors";
 import { addAllItem } from "./redux/cart/cart.action";
+import { selectShopDataArray } from "./redux/shop/shop.selectors";
 
 class App extends React.Component {
-  unsubscribeFromAuth = null;
-
   componentDidMount() {
-    const { setCurrentUser, addCarts, carts } = this.props;
-
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth);
-        userRef.onSnapshot(snapShot => {
-          setCurrentUser({
-            currentUser: {
-              id: snapShot.id,
-              ...snapShot.data()
-            }
-          });
-          addCarts(carts); 
-        });
-      }
-      setCurrentUser(userAuth);
-      addCarts(carts)
-    });
-  }
-
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
+    const { checkUser, carts, addCarts } = this.props;
+    checkUser();
+    if (carts) addCarts(carts);
+    // createCollectionsAndListItems("collections", shopData);
   }
 
   render = () => (
@@ -71,11 +51,12 @@ class App extends React.Component {
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
   carts: selectCartItems,
+  shopData: selectShopDataArray,
 });
 
-const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user)),
-  addCarts: item => dispatch(addAllItem(item))
+const mapDispatchToProps = (dispatch) => ({
+  checkUser: () => dispatch(checkUser()),
+  addCarts: (item) => dispatch(addAllItem(item)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
