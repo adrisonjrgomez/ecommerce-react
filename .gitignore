@@ -6,8 +6,8 @@
 .pnp.js
 
 /notes.md
-#/src/firebase/config.js
-#/src/component/stripe-button/config.js
+/src/firebase/config.js
+/src/component/stripe-button/config.js
 
 # testing
 /coverage

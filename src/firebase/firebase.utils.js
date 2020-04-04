@@ -1,10 +1,9 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
-import config from './config'
+import config from "./config";
 
 firebase.initializeApp(config);
-
 
 export const auth = firebase.auth();
 
@@ -38,40 +37,74 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 };
 
 // Using promises
-export const createUserProfileDocumentPromise = ({uid, displayName, email}, additionalData) => {
+export const createUserProfileDocumentPromise = (
+  { uid, displayName, email },
+  additionalData
+) => {
   const reference = firestore.doc(`users/${uid}`);
-  reference.get()
-    .then(snapshot => snapshot.exists 
-      ? snapshot 
-      : reference.set(
-        {
-          displayName,
-          email,
-          createdAt: new Date(),
-          ...additionalData,
-        }
-      )    
-  ).catch( error => console.log("Error Creating User", error.message));
+  reference
+    .get()
+    .then(snapshot =>
+      snapshot.exists
+        ? snapshot
+        : reference.set({
+            displayName,
+            email,
+            createdAt: new Date(),
+            ...additionalData
+          })
+    )
+    .catch(error => console.log("Error Creating User", error.message));
   return reference;
-}
+};
 
 //Using promises and using ternary operetor you need to call ref to apply this function
-export const createUserProfileDocumentPromiseTernary = ({ uid, displayName, email },additionalData
-  ) =>
+export const createUserProfileDocumentPromiseTernary = (
+  { uid, displayName, email },
+  additionalData
+) =>
   !uid
     ? null
-    : firestore.doc(`users/${uid}`).get()
-        .then(response => response.exists
+    : firestore
+        .doc(`users/${uid}`)
+        .get()
+        .then(response =>
+          response.exists
             ? response
-            : firestore.doc(`users/${uid}`)
-                .set({
-                  displayName,
-                  email,
-                  createdAt: new Date(),
-                  ...additionalData
-                })
-        ).then(resp => resp.ref).catch(error =>
-          console.log("Error creating user", error.message)
-        );
+            : firestore.doc(`users/${uid}`).set({
+                displayName,
+                email,
+                createdAt: new Date(),
+                ...additionalData
+              })
+        )
+        .then(resp => resp.ref)
+        .catch(error => console.log("Error creating user", error.message));
+
+export const createCollectionsAndListItems = (collectionsKey, objectsToAdd) => {
+  const collectionRef = firestore.collection(`/${collectionsKey}`);
+  const batch = firestore.batch();
+  console.log(objectsToAdd);
+  objectsToAdd.forEach(({ title, items }) =>
+    batch.set(collectionRef.doc(), { title, items })
+  );
+  batch.commit().then(response => console.log(response));
+};
+
+export const convertCollectionSnapshopToMap = collections => {
+  const transfromedData = collections.docs.map(doc => {
+    const { title, items } = doc.data();
+    return {
+      id: doc.id,
+      routeName: encodeURI(title.toLowerCase()),
+      title,
+      items
+    };
+  });
+  return transfromedData.reduce((accumulator, currentItem) => {
+    accumulator[currentItem.title.toLowerCase()] = currentItem;
+    return accumulator;
+  }, {});
+};
 
 export default firebase;

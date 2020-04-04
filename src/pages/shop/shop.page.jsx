@@ -1,14 +1,38 @@
 import React from "react";
+import { connect } from "react-redux";
 
 import { Route } from "react-router-dom";
-import CollectionPreview from '../../component/preview-collection/preview-collection.component';
-import categoryPage from "../collection/collection.page";
+import CollectionPreviewContainer from "../../component/preview-collection/preview-collection.container";
 
-const ShopPage = ({ match }) => (
-  <div className="shop-page">
-    <Route exact path={`${match.path}`} component={CollectionPreview} />
-    <Route path={`${match.path}/:collection`} component={categoryPage} />
-  </div>
-);
+import { fecthCollectionStartAsync } from "../../redux/shop/shop.actions";
 
-export default ShopPage;
+import CollectionPageContainer from "../collection/collection.container";
+
+class ShopPage extends React.Component {
+  componentDidMount() {
+    this.props.addCollections();
+  }
+
+  render() {
+    const { match } = this.props;
+    return (
+      <div className="shop-page">
+        <Route
+          exact
+          path={`${match.path}`}
+          component={CollectionPreviewContainer}
+        />
+        <Route
+          path={`${match.path}/:collection`}
+          component={CollectionPageContainer}
+        />
+      </div>
+    );
+  }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  addCollections: (collections) => dispatch(fecthCollectionStartAsync()),
+});
+
+export default connect(null, mapDispatchToProps)(ShopPage);

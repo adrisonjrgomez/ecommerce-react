@@ -7,7 +7,6 @@ import "./collection.styles.scss";
 
 const CollectionPage = ({ match, collection: { title, items } }) => (
   <div className="collection-page">
-    {console.log(items)}
     {title ? <h2 className="title">{title}</h2> : <h2 className="title"> Something Happen </h2>}
     <div className="items-preview">
       {items ? (
