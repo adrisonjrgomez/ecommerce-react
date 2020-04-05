@@ -30,7 +30,6 @@ const userReducer = (state = INITIAL_STATE, action) => {
         currentUser: null,
         errorMessage: action.payload,
       };
-    case UserActionType.CHECK_USER:
     default:
       return state;
   }
