@@ -46,7 +46,6 @@ export function* onSignOut() {
 export function* onSignUp({ payload: { email, password, displayName } }) {
   try {
     const { user } = yield auth.createUserWithEmailAndPassword(email, password);
-    console.log(user);
     yield put(signUpSuccess({ user, additionalData: { displayName } }));
   } catch (error) {
     yield put(signUpFailure(error));
@@ -66,7 +65,6 @@ export function* getUserFromSnapshot(user, additionalData) {
 export function* isUserAunthenticated() {
   try {
     const userAuth = yield getCurrentUser();
-    console.log("hola");
     if (!userAuth) return;
     yield getUserFromSnapshot(userAuth);
   } catch (error) {
