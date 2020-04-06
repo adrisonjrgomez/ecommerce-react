@@ -84,7 +84,6 @@ export const createUserProfileDocumentPromiseTernary = (
 export const createCollectionsAndListItems = (collectionsKey, objectsToAdd) => {
   const collectionRef = firestore.collection(`/${collectionsKey}`);
   const batch = firestore.batch();
-  console.log(objectsToAdd);
   objectsToAdd.forEach(({ title, items }) =>
     batch.set(collectionRef.doc(), { title, items })
   );

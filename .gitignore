@@ -19,5 +19,5 @@ yarn-debug.log*
 yarn-error.log*
 
 client/notes.md
-client/src/firebase/config.js
-client/src/component/stripe-button/config.js
+#client/src/firebase/config.js
+#client/src/component/stripe-button/config.js

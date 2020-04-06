@@ -18,7 +18,6 @@ const App = ({ checkUser, addCarts }) => {
   const currentUser = useSelector(selectCurrentUser);
   const carts = useSelector(selectCartItems);
   useEffect(() => {
-    console.log("reproduce");
     checkUser();
   }, [checkUser]);
 
